@@ -93,9 +93,6 @@ You’ll need two terminals:
 
 Terminal 1: Backend
 
-bash
-Copy
-Edit
 cd rubber-duck-store/backend
 
 # Create environment file
@@ -109,10 +106,6 @@ npm run dev
 Backend runs on  http://localhost:5001
 
 Terminal 2: Frontend
-
-bash
-Copy
-Edit
 cd rubber-duck-store/frontend
 
 # Install dependencies
@@ -120,11 +113,10 @@ npm install
 
 # Start React app
 npm start
-This will automatically open your browser.
 3. Access the Application:
 The application will be running at:
 http://localhost:3000
 The frontend's proxy will automatically redirect API calls to the backend server running on port 5001.
 
-Frontend runs on 👉 http://localhost:3000
+Frontend runs on  http://localhost:3000
 API calls will proxy to the backend automatically.
