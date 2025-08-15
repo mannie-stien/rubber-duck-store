@@ -54,7 +54,7 @@ This project is designed to be run with a single command using Docker. No local 
 ### Instructions
 
 **1. Clone the Repository:**
-```bash
+
 git clone <your-github-repository-url>
 cd rubber-duck-store
 2. Run Docker Compose:
