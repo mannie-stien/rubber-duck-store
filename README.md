@@ -3,9 +3,6 @@
 A complete **full-stack web application** for managing a warehouse of rubber ducks.  
 It features a **React/TypeScript frontend**, an **Express.js backend**, and a **MongoDB database**.  
 The entire application is containerized with **Docker**, enabling a simple one-command setup.  
-
-This project was built to fulfill a detailed technical specification, showcasing **best practices** in software architecture, responsive design, and modern development workflows.
-
 ---
 
 ## Features
