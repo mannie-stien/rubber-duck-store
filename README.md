@@ -65,7 +65,6 @@ No need to install Node.js or MongoDB locally.
 
 #### Instructions
 
-<<<<<<< HEAD
 **1. Clone the Repository:**
 
 git clone <your-github-repository-url>
@@ -109,7 +108,7 @@ npm install
 
 # Start server
 npm run dev
-Backend runs on 👉 http://localhost:5001
+Backend runs on  http://localhost:5001
 
 Terminal 2: Frontend
 
@@ -132,4 +131,3 @@ The frontend's proxy will automatically redirect API calls to the backend server
 =======
 Frontend runs on 👉 http://localhost:3000
 API calls will proxy to the backend automatically.
->>>>>>> c8a2bb4 (Readme commit)
