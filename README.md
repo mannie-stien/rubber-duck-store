@@ -67,18 +67,16 @@ No need to install Node.js or MongoDB locally.
 
 **1. Clone the Repository:**
 
-git clone <your-github-repository-url>
-=======
+git clone <https://github.com/mannie-stien/rubber-duck-store.git>
 ```bash
 # 1. Clone the Repository
 git clone <https://github.com/mannie-stien/rubber-duck-store.git>
->>>>>>> c8a2bb4 (Readme commit)
 cd rubber-duck-store
 
 # 2. Run Docker Compose
 docker-compose up --build
 Once running, visit:
-👉 http://localhost:3000
+ http://localhost:3000
 
 Alternative: Run Locally (Without Docker)
 If you prefer a manual setup:
@@ -122,12 +120,11 @@ npm install
 
 # Start React app
 npm start
-<<<<<<< HEAD
 This will automatically open your browser.
 3. Access the Application:
 The application will be running at:
 http://localhost:3000
 The frontend's proxy will automatically redirect API calls to the backend server running on port 5001.
-=======
+
 Frontend runs on 👉 http://localhost:3000
 API calls will proxy to the backend automatically.
