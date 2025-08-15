@@ -1,0 +1,139 @@
+.duck-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.duck-table th, .duck-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.duck-table th {
+  background-color: #6c757d;
+  color: white;
+  font-weight: bold;
+}
+
+/*Style for headers that need black text (applied via className in the .tsx file) */
+.duck-table th.th-mixed-color {
+  color: #212529;
+}
+
+/*Style for ALL subtext spans inside a header */
+.duck-table th span {
+  display: block;
+  font-weight: normal;
+  font-size: 0.8em;
+  color: white;
+}
+
+.duck-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.duck-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* --- Action Link Styles --- */
+.actions-cell {
+  line-height: 1.2;
+}
+
+.action-link {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.action-link.edit {
+  color: #007bff;
+}
+
+.action-link.delete {
+  color: #dc3545;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}
+
+.action-separator {
+  margin: 0 5px;
+  color: #6c757d;
+}
+
+.actions-subtext {
+  font-size: 0.8em;
+  color: #6c757d;
+}
+
+
+/* --- Color Chip Styles --- */
+.color-red {
+  font-weight: bold;
+  color: #c82333;
+}
+.color-green {
+  font-weight: bold;
+  color: #218838;
+}
+.color-yellow {
+  font-weight: bold;
+  color: #e0a800;
+}
+.color-black {
+  font-weight: bold;
+  color: #23272b;
+}
+
+@media screen and (max-width: 768px) {
+  .duck-table thead {
+    display: none;
+  }
+
+  .duck-table, .duck-table tbody, .duck-table tr, .duck-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .duck-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+
+  .duck-table td {
+    text-align: right;
+    padding-left: 50%; 
+    position: relative; 
+    border: none; 
+    border-bottom: 1px solid #eee;
+  }
+
+  .duck-table td:last-child {
+    border-bottom: none; 
+  }
+
+  .duck-table td::before {
+    content: attr(data-label); 
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc(50% - 20px); 
+    text-align: left;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .actions-cell {
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .actions-cell::before {
+    display: none; 
+  }
+}

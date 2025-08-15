@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # --- MongoDB Database Service ---
+  mongo:
+    image: mongo:latest
+    container_name: mongo-duck-store
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+  # --- Backend API Service ---
+  backend:
+    build: ./backend
+    container_name: backend-api
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb://mongo:27017/duck-store
+    depends_on:
+      - mongo
+    restart: on-failure
+
+  # --- Frontend Web Service ---
+  frontend:
+    build: ./frontend 
+    container_name: frontend-client
+    ports:
+      - "3000:80" 
+    depends_on:
+      - backend
+
+# Define a named volume for persisting MongoDB data
+volumes:
+  mongo-data:
