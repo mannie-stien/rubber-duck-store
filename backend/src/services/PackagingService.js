@@ -1,8 +1,4 @@
 class PackagingService {
-  /**
-   * @param {object} order 
-   * @returns {{packageType: string, protectionType: string[]}}
-   */
   determinePackaging(order) {
     switch (order.shippingMode) {
       case 'Air':
@@ -16,25 +12,22 @@ class PackagingService {
     }
   }
 
+// Rule vi: Fill with polystyrene balls for any land package.
   _getLandPackaging(size) {
     const packageType = this._getPackageTypeForSize(size);
-    // Rule vi: Fill with polystyrene balls for any land package.
     const protectionType = ['polystyrene balls'];
     return { packageType, protectionType };
   }
-
+// Rule vii: Fill with moisture-absorbing beads and bubble wrap bags for any sea package.
   _getSeaPackaging(size) {
     const packageType = this._getPackageTypeForSize(size);
-    // Rule vii: Fill with moisture-absorbing beads and bubble wrap bags for any sea package.
     const protectionType = ['moisture-absorbing beads', 'bubble wrap bags'];
     return { packageType, protectionType };
-  }
-
+  }    
+  // Rule iv & v
   _getAirPackaging(size) {
     const packageType = this._getPackageTypeForSize(size);
     let protectionType = [];
-
-    // Rule iv & v
     if (packageType === 'wood' || packageType === 'cardboard') {
       protectionType.push('polystyrene balls');
     } else if (packageType === 'plastic') {
@@ -43,8 +36,8 @@ class PackagingService {
     return { packageType, protectionType };
   }
 
+// Rule i, ii, iii
   _getPackageTypeForSize(size) {
-    // Rule i, ii, iii
     if (size === 'XLarge' || size === 'Large') {
       return 'wood';
     } else if (size === 'Medium') {
