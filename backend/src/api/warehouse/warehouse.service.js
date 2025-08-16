@@ -37,8 +37,6 @@ class WarehouseService {
   async editDuck(id, updateData) {
     const allowedUpdates = ['price', 'quantity'];
     const updates = {};
-
-    // Ensure only allowed fields are being updated
     for (const key in updateData) {
       if (allowedUpdates.includes(key)) {
         updates[key] = updateData[key];

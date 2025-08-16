@@ -9,20 +9,19 @@ class PricingService {
     };
 
     // --- The Chain of Responsibility ---
-    // Each function takes the context, modifies it, and the next function uses the result.
     costContext = this._applyBaseCost(costContext);
     costContext = this._applyVolumeDiscount(costContext, order.quantity);
     costContext = this._applyPackageMaterialCost(costContext, packageDetails.packageType);
     costContext = this._applyCountryTax(costContext, order.destinationCountry);
     costContext = this._applyShippingFee(costContext, order);
-    
+
     // Format the final output
     return {
-        totalToPay: parseFloat(costContext.finalCost.toFixed(2)),
-        details: {
-            increments: costContext.increments,
-            discounts: costContext.discounts
-        }
+      totalToPay: parseFloat(costContext.finalCost.toFixed(2)),
+      details: {
+        increments: costContext.increments,
+        discounts: costContext.discounts,
+      },
     };
   }
 
@@ -31,73 +30,110 @@ class PricingService {
     return context;
   }
 
-
-    // Rule ii: 20% discount for orders over 100 units.
+  // Rule ii: 20% discount for orders over 100 units.
   _applyVolumeDiscount(context, quantity) {
     if (quantity > 100) {
-      const discountAmount = context.finalCost * 0.20;
-      context.discounts.push({ reason: 'Volume Discount (20%)', amount: -discountAmount });
+      const discountAmount = context.finalCost * 0.2;
+      context.discounts.push({
+        reason: "Volume Discount (20%)",
+        amount: -discountAmount,
+      });
       context.finalCost -= discountAmount;
     }
     return context;
   }
 
-    // Rule iii, iv, v
+  // Rule iii, iv, v
   _applyPackageMaterialCost(context, packageType) {
-    if (packageType === 'wood') {
-      const incrementAmount = context.finalCost * 0.05;
-      context.increments.push({ reason: 'Wood Package Surcharge (5%)', amount: incrementAmount });
-      context.finalCost += incrementAmount;
-    } else if (packageType === 'plastic') {
-      const incrementAmount = context.finalCost * 0.10;
-      context.increments.push({ reason: 'Plastic Package Surcharge (10%)', amount: incrementAmount });
-      context.finalCost += incrementAmount;
-    } else if (packageType === 'cardboard') {
-      const discountAmount = context.finalCost * 0.01;
-      context.discounts.push({ reason: 'Cardboard Package Discount (1%)', amount: -discountAmount });
-      context.finalCost -= discountAmount;
+    const materialCostStrategies = {
+      wood: {
+        type: "increment",
+        rate: 0.05,
+        reason: "Wood Package Surcharge (5%)",
+      },
+      plastic: {
+        type: "increment",
+        rate: 0.1,
+        reason: "Plastic Package Surcharge (10%)",
+      },
+      cardboard: {
+        type: "discount",
+        rate: 0.01,
+        reason: "Cardboard Package Discount (1%)",
+      },
+    };
+    const strategy = materialCostStrategies[packageType];
+    if (!strategy) {
+      throw new Error(`Unknown package type: ${packageType}`);
+    }
+    const amount = context.finalCost * strategy.rate;
+    const entry = {
+      reason: strategy.reason,
+      amount: strategy.type === "discount" ? -amount : amount,
+    };
+    if (strategy.type === "discount") {
+      context.discounts.push(entry);
+      context.finalCost -= amount;
+    } else {
+      context.increments.push(entry);
+      context.finalCost += amount;
     }
     return context;
   }
 
-
-    // Rule vi, vii, viii, ix
+  // Rule vi, vii, viii, ix
   _applyCountryTax(context, country) {
     let taxRate = 0.15; // Default tax
-    if (country.toLowerCase() === 'usa') taxRate = 0.18;
-    if (country.toLowerCase() === 'bolivia') taxRate = 0.13;
-    if (country.toLowerCase() === 'india') taxRate = 0.19;
+    if (country.toLowerCase() === "usa") taxRate = 0.18;
+    if (country.toLowerCase() === "bolivia") taxRate = 0.13;
+    if (country.toLowerCase() === "india") taxRate = 0.19;
 
     const taxAmount = context.finalCost * taxRate;
-    context.increments.push({ reason: `Destination Tax (${taxRate * 100}%)`, amount: taxAmount });
+    context.increments.push({
+      reason: `Destination Tax (${taxRate * 100}%)`,
+      amount: taxAmount,
+    });
     context.finalCost += taxAmount;
     return context;
   }
 
-    // Rule x, xi, xii
+  // Rule x, xi, xii
   _applyShippingFee(context, order) {
-    let shippingFee = 0;
-    let reason = '';
+    const shippingStrategies = {
+      Sea: {
+        fee: () => 400,
+        reason: "Sea Shipping Flat Fee",
+      },
+      Land: {
+        fee: () => 10 * order.quantity,
+        reason: "Land Shipping Fee",
+      },
+      Air: {
+        fee: () => {
+          let fee = 30 * order.quantity;
+          if (order.quantity > 1000) {
+            const discount = fee * 0.15;
+            fee -= discount;
+            context.discounts.push({
+              reason: "High-Volume Air Shipping Discount (15%)",
+              amount: -discount,
+            });
+          }
+          return fee;
+        },
+        reason: "Air Shipping Fee",
+      },
+    };
 
-    if (order.shippingMode === 'Sea') {
-      shippingFee = 400;
-      reason = 'Sea Shipping Flat Fee';
-    } else if (order.shippingMode === 'Land') {
-      shippingFee = 10 * order.quantity;
-      reason = 'Land Shipping Fee';
-    } else if (order.shippingMode === 'Air') {
-      shippingFee = 30 * order.quantity;
-      reason = 'Air Shipping Fee';
-      // Apply discount if order exceeds 1000 units
-      if (order.quantity > 1000) {
-          const discount = shippingFee * 0.15;
-          shippingFee -= discount;
-          context.discounts.push({ reason: 'High-Volume Air Shipping Discount (15%)', amount: -discount });
-      }
+    const strategy = shippingStrategies[order.shippingMode];
+    if (!strategy) {
+      throw new Error(`Unsupported shipping mode: ${order.shippingMode}`);
     }
-    
-    context.increments.push({ reason: reason, amount: shippingFee });
+
+    const shippingFee = strategy.fee();
+    context.increments.push({ reason: strategy.reason, amount: shippingFee });
     context.finalCost += shippingFee;
+
     return context;
   }
 }
