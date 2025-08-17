@@ -30,7 +30,7 @@ class PricingService {
     return context;
   }
 
-  // Rule ii: 20% discount for orders over 100 units.
+  //  20% discount for orders over 100 units.
   _applyVolumeDiscount(context, quantity) {
     if (quantity > 100) {
       const discountAmount = context.finalCost * 0.2;
@@ -43,7 +43,6 @@ class PricingService {
     return context;
   }
 
-  // Rule iii, iv, v
   _applyPackageMaterialCost(context, packageType) {
     const materialCostStrategies = {
       wood: {
@@ -81,9 +80,8 @@ class PricingService {
     return context;
   }
 
-  // Rule vi, vii, viii, ix
   _applyCountryTax(context, country) {
-    let taxRate = 0.15; // Default tax
+    let taxRate = 0.15; // this tax applies to everyone else
     if (country.toLowerCase() === "usa") taxRate = 0.18;
     if (country.toLowerCase() === "bolivia") taxRate = 0.13;
     if (country.toLowerCase() === "india") taxRate = 0.19;
@@ -97,7 +95,6 @@ class PricingService {
     return context;
   }
 
-  // Rule x, xi, xii
   _applyShippingFee(context, order) {
     const shippingStrategies = {
       Sea: {

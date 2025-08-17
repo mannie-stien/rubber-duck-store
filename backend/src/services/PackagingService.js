@@ -18,8 +18,8 @@ class PackagingService {
     const protectionType = ["polystyrene balls"];
     return { packageType, protectionType };
   }
-  
-  // Rule vii: Fill with moisture-absorbing beads and bubble wrap bags for any sea package.
+
+  // fill with moisture-absorbing beads and bubble wrap bags for any sea package.
   _getSeaPackaging(size) {
     const packageType = this._getPackageTypeForSize(size);
     const protectionType = ["moisture-absorbing beads", "bubble wrap bags"];
@@ -27,7 +27,6 @@ class PackagingService {
   }
 
 
-  // Rule iv & v
   _getAirPackaging(size) {
     const packageType = this._getPackageTypeForSize(size);
     const protectionMap = {
@@ -44,7 +43,6 @@ class PackagingService {
     return { packageType, protectionType };
   }
 
-  // Rule i, ii, iii
   _getPackageTypeForSize(size) {
     const sizeToPackageMap = {
       XLarge: "wood",

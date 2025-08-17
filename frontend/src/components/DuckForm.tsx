@@ -14,7 +14,7 @@ interface DuckFormProps {
 const DuckForm: React.FC<DuckFormProps> = ({ duckToEdit, onSave, onCancel }) => {
   const isEditMode = !!duckToEdit;
 
-  // Initialize the state of the form
+  // Initialize the state the form
   const [formData, setFormData] = useState({
     color: duckToEdit?.color || COLORS[0],
     size: duckToEdit?.size || SIZES[0],
@@ -22,7 +22,7 @@ const DuckForm: React.FC<DuckFormProps> = ({ duckToEdit, onSave, onCancel }) => 
     quantity: duckToEdit?.quantity || 1,
   });
 
-  // If duckToEdit changes, I will update the form data
+  // if the duck to edit changes, I will update the form data
   useEffect(() => {
     if (duckToEdit) {
       setFormData({
@@ -36,7 +36,7 @@ const DuckForm: React.FC<DuckFormProps> = ({ duckToEdit, onSave, onCancel }) => 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    // Convert price and quantity to numbers
+    // Converting price and quantity to numbers
     const processedValue = name === 'price' || name === 'quantity' ? Number(value) : value;
     setFormData(prev => ({ ...prev, [name]: processedValue }));
   };
@@ -92,7 +92,7 @@ const DuckForm: React.FC<DuckFormProps> = ({ duckToEdit, onSave, onCancel }) => 
           name="quantity"
           value={formData.quantity}
           onChange={handleChange}
-          min={isEditMode ? "0" : "1"} // Can't add a new duck with 0 quantity
+          min={isEditMode ? "0" : "1"} // will not add a new duck with 0 quantity
         />
       </div>
       <div className="form-actions">

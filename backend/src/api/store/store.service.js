@@ -26,11 +26,11 @@ class StoreService {
       price: duck.price,
     };
     
-    // 2. Delegating logic to their respective service
+    //  Delegating logic to their respective service
     const packaging = PackagingService.determinePackaging(fullOrderDetails);
     const pricing = PricingService.calculateTotal(fullOrderDetails, packaging);
 
-    // 4. Assembling the final, detailed responses
+    // 4. gathering the final, detailed responses
     const finalResponse = {
       packageType: packaging.packageType,
       protectionType: packaging.protectionType,

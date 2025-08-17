@@ -1,7 +1,7 @@
 const warehouseService = require('./warehouse.service');
 const Joi = require('joi');
 
-// Validation schema for adding a duck
+// Validation schema for adding a duck using joi
 const addDuckSchema = Joi.object({
   color: Joi.string().valid('Red', 'Green', 'Yellow', 'Black').required(),
   size: Joi.string().valid('XLarge', 'Large', 'Medium', 'Small', 'XSmall').required(),
@@ -9,7 +9,8 @@ const addDuckSchema = Joi.object({
   quantity: Joi.number().integer().min(1).required(),
 });
 
-// Validation schema for editing a duck
+
+
 const editDuckSchema = Joi.object({
     price: Joi.number().positive(),
     quantity: Joi.number().integer().min(0),

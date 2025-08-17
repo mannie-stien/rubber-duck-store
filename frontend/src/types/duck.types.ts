@@ -1,4 +1,5 @@
-export type DuckColor = 'Red' | 'Green' | 'Yellow' | 'Black';
+//the duck attributes
+export type DuckColor = 'Red' | 'Green' | 'Yellow' | 'Black'; 
 export type DuckSize = 'XLarge' | 'Large' | 'Medium' | 'Small' | 'XSmall';
 
 export interface Duck {
@@ -7,11 +8,21 @@ export interface Duck {
   size: DuckSize;
   price: number;
   quantity: number;
-  deleted: boolean;
+  deleted?: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
-export type CreateDuckDto = Omit<Duck, 'id' | 'deleted' | 'createdAt' | 'updatedAt'>;
+// Creating  duck payload
+export type CreateDuckDto = {
+  color: DuckColor;
+  size: DuckSize;
+  price: number;
+  quantity: number;
+};
 
-export type UpdateDuckDto = Partial<Pick<Duck, 'price' | 'quantity'>>;
+// Update payload 
+export type UpdateDuckDto = {
+  price?: number;
+  quantity?: number;
+};

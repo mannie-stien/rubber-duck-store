@@ -13,12 +13,11 @@ class WarehouseService {
     });
 
     if (existingDuck) {
-      // If duck exists, add to its quantity
       existingDuck.quantity += quantity;
       await existingDuck.save();
       return { duck: existingDuck, created: false };
     } else {
-      // If no such duck exists, create a new one
+      // if no such duck exists, create a new one
       const newDuck = new Duck({
         color,
         size,

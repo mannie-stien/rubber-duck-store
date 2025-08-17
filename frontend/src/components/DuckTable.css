@@ -16,7 +16,6 @@
   font-weight: bold;
 }
 
-/*Style for headers that need black text (applied via className in the .tsx file) */
 .duck-table th.th-mixed-color {
   color: #212529;
 }

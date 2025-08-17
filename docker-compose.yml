@@ -33,6 +33,6 @@ services:
     depends_on:
       - backend
 
-# Define a named volume for persisting MongoDB data
+# volume for persisting MongoDB data
 volumes:
   mongo-data:

@@ -13,7 +13,6 @@ const WarehousePage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingDuck, setEditingDuck] = useState<Duck | null>(null);
 
-  // Fetches the list of ducks.
   const fetchDucks = async () => {
     try {
       setIsLoading(true);
@@ -32,29 +31,23 @@ const WarehousePage: React.FC = () => {
     fetchDucks();
   }, []);
 
-  //Handlers for opening the modal.
-  const handleOpenAddModal = () => {
-    setEditingDuck(null); // Clear any previous duck to ensure it's an "add" form.
+  const openAddModal = () => {
+    setEditingDuck(null);
     setIsModalOpen(true);
   };
 
-  const handleOpenEditModal = (duck: Duck) => {
-    setEditingDuck(duck); // Set the duck to be edited.
+  const openEditModal = (duck: Duck) => {
+    setEditingDuck(duck);
     setIsModalOpen(true);
   };
 
   
-   // Handler to close modal.
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setIsModalOpen(false);
     setEditingDuck(null); 
   };
 
-  /**
-   * Handler for the form submission.
-   * this is where i decide whether to call the add or update API endpoint.
-   */
-  const handleSaveDuck = async (duckData: CreateDuckDto | UpdateDuckDto) => {
+  const saveDuck = async (duckData: CreateDuckDto | UpdateDuckDto) => {
     try {
       if (editingDuck) {
         const updatePayload: UpdateDuckDto = {
@@ -65,7 +58,7 @@ const WarehousePage: React.FC = () => {
       } else {
         await addDuck(duckData as CreateDuckDto);
       }
-      handleCloseModal();
+      closeModal();
       fetchDucks();
     } catch (err) {
       alert("Failed to save duck. Please check the console for details.");
@@ -74,12 +67,11 @@ const WarehousePage: React.FC = () => {
   };
 
 
-  // Handler for deleting a duck.
   const handleDeleteDuck = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this duck?")) {
       try {
         await deleteDuck(id);
-        fetchDucks(); // Refresh the list on successful deletion.
+        fetchDucks(); 
       } catch (err) {
         alert("Failed to delete duck.");
         console.error(err);
@@ -94,7 +86,7 @@ const WarehousePage: React.FC = () => {
         <h1>Almacen de Patitos</h1>
         <h2>Duck Warehouse</h2>
 
-        <button className="add-button" onClick={handleOpenAddModal}>
+        <button className="add-button" onClick={openAddModal}>
           add duck <br />
           <span>Agregar Patito</span>
         </button>
@@ -104,20 +96,19 @@ const WarehousePage: React.FC = () => {
         {!isLoading && !error && (
           <DuckTable
             ducks={ducks}
-            onEdit={handleOpenEditModal}
+            onEdit={openEditModal}
             onDelete={handleDeleteDuck}
           />
         )}
 
-        {/* Modal for adding/editing ducks */}
         <Modal
           isOpen={isModalOpen}
-          onClose={handleCloseModal}
+          onClose={closeModal}
           title={editingDuck ? "Edit Duck" : "Add New Duck"}
         >
           <DuckForm
-            onSave={handleSaveDuck}
-            onCancel={handleCloseModal}
+            onSave={saveDuck}
+            onCancel={closeModal}
             duckToEdit={editingDuck}
           />
         </Modal>
